@@ -1840,6 +1840,8 @@ MonoBehaviour:
   - {fileID: 379799070}
   - {fileID: 2061563852}
   portInput: {fileID: 1718640588}
+  ipInput: {fileID: 1667500278}
+  ipText: {fileID: 430261932}
 --- !u!4 &644252273
 Transform:
   m_ObjectHideFlags: 0
@@ -5023,8 +5025,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 644252272}
-        m_MethodName: setMenu
-        m_Mode: 3
+        m_MethodName: ValidateIPBeforeHosting
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

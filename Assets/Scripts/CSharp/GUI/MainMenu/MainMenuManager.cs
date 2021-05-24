@@ -9,7 +9,14 @@ namespace summer2021.csharp.gui.mainMenu
     public class MainMenuManager : MonoBehaviour
     {
         [SerializeField] private GameObject[] Menus;
+
+        // Input Fields
         [SerializeField] private TMP_InputField portInput;
+        [SerializeField] private TMP_InputField ipInput;
+
+        // UI Text
+        [SerializeField] private TMP_Text ipText;
+
         private int currentMenu = 0;
         private ushort port = 7777;
 
@@ -27,6 +34,29 @@ namespace summer2021.csharp.gui.mainMenu
             Menus[currentMenu].SetActive(true);
         }
 
+        // Updated by John | May 24, 2021
+        public void ValidateIPBeforeHosting()
+        {
+
+            NetworkManagerLobby networkManager = (NetworkManagerLobby.singleton as NetworkManagerLobby);
+
+            if (string.IsNullOrEmpty(ipInput.text))
+            {
+
+                Debug.LogError("IP field is required");
+
+            }
+            else
+            {
+
+                networkManager.networkAddress = ipInput.text;
+                ipText.text = ipInput.text;
+                setMenu(2);
+
+            }
+
+        }
+
         public void joinGame() {
 
         }
@@ -34,18 +64,21 @@ namespace summer2021.csharp.gui.mainMenu
         // Updated by John | May 24, 2021
         public void hostGame() {
 
+            NetworkManagerLobby networkManager = (NetworkManagerLobby.singleton as NetworkManagerLobby);
+
             if (!ushort.TryParse(portInput.text, out port))
             {
 
-                Debug.Log("Bad port input");
+                Debug.LogError("Bad port input");
 
             }
             else
             {
 
-                (NetworkManagerLobby.singleton as NetworkManagerLobby).Tele.port = port;
+                networkManager.Tele.port = port;
 
             }
+
 
         }
 

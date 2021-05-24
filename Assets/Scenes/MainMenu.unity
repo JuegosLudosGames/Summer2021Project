@@ -1839,6 +1839,7 @@ MonoBehaviour:
   - {fileID: 97892507}
   - {fileID: 379799070}
   - {fileID: 2061563852}
+  portInput: {fileID: 1718640588}
 --- !u!4 &644252273
 Transform:
   m_ObjectHideFlags: 0
@@ -3007,6 +3008,7 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
+  tele: {fileID: 1321738126}
 --- !u!114 &1321738126
 MonoBehaviour:
   m_ObjectHideFlags: 0

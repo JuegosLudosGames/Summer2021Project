@@ -1841,7 +1841,7 @@ MonoBehaviour:
   - {fileID: 2061563852}
   portInput: {fileID: 1718640588}
   ipInput: {fileID: 1667500278}
-  ipText: {fileID: 430261932}
+  ipText: {fileID: 1472243271}
 --- !u!4 &644252273
 Transform:
   m_ObjectHideFlags: 0

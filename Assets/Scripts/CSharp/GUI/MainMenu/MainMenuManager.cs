@@ -79,6 +79,8 @@ namespace summer2021.csharp.gui.mainMenu
 
             }
 
+            networkManager.StartHost();
+            setMenu(3);
 
         }
 

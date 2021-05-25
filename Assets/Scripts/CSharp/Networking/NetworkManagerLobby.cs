@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
+using summer2021.csharp.gui.mainMenu;
 
 // Updated by John | May 24, 2021
 namespace summer2021.csharp.networking{
@@ -58,6 +59,8 @@ namespace summer2021.csharp.networking{
 
                 //Add Listing object
                 GameObject listing = Instantiate(playerListingPrefab, parentForListings.transform);
+
+                baseInstance.GetComponent<PlayerDetails>().lobbyListing = listing.GetComponent<PlayerListing>();
 
                 NetworkServer.Spawn(listing, baseInstance);
             }

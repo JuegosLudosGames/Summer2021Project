@@ -1,5 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.Net;
+using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using summer2021.csharp.networking;
 using TMPro;
@@ -8,6 +12,9 @@ namespace summer2021.csharp.gui.mainMenu
 {
     public class MainMenuManager : MonoBehaviour
     {
+
+        public static Regex IPV6_FORMAT = new Regex("((([0-9a-fA-F]){1,4})\\:){7}([0-9a-fA-F]){1,4}");
+
         [SerializeField] private GameObject[] Menus;
 
         // Input Fields
@@ -19,13 +26,20 @@ namespace summer2021.csharp.gui.mainMenu
 
         private int currentMenu = 0;
         private ushort port = 7777;
+        private string publicIp = "";
 
+        // Updated by Kyle | May 25, 2021
         private void Start() {
             foreach(GameObject g in Menus) {
                 g.SetActive(false);
             
             }
             Menus[0].SetActive(true);
+
+            //grab public ip
+            string[] webstring = new WebClient().DownloadString("http://ip4only.me/api/").Trim().Split(',');
+            publicIp = webstring[1];
+            ipText.text = publicIp;
         }
 
         public void setMenu(int index) {
@@ -35,6 +49,8 @@ namespace summer2021.csharp.gui.mainMenu
         }
 
         // Updated by John | May 24, 2021
+        // Made Obsolete by Kyle | May 25, 2021
+        [Obsolete("Not needed")]
         public void ValidateIPBeforeHosting()
         {
 
@@ -57,28 +73,46 @@ namespace summer2021.csharp.gui.mainMenu
 
         }
 
+        // Updated by Kyle | May 25, 2021
         public void joinGame() {
+            string[] segments = ipInput.text.Trim().Split(':');
+
+            //validate ip
+            if(!(isValidIpv4(segments[0]) || isValidIpv6(segments[0]))) {
+                Debug.Log("Invalid IP");
+                return;
+            }
+
+            //validate port
+            if(!ushort.TryParse(portInput.text, out port)) {
+                Debug.Log("Invalid Port");
+            }
+
+            NetworkManagerLobby networkManager = (NetworkManagerLobby.singleton as NetworkManagerLobby);
+            networkManager.networkAddress = segments[0];
+            networkManager.Tele.port = port;
+
+            networkManager.StartClient();
 
         }
 
         // Updated by John | May 24, 2021
+        // Updated by Kyle | May 25, 2021
         public void hostGame() {
 
             NetworkManagerLobby networkManager = (NetworkManagerLobby.singleton as NetworkManagerLobby);
-
+            
             if (!ushort.TryParse(portInput.text, out port))
             {
-
                 Debug.LogError("Bad port input");
-
+                return;
             }
             else
             {
-
                 networkManager.Tele.port = port;
-
             }
 
+            networkManager.networkAddress = "localhost";
             networkManager.StartHost();
             setMenu(3);
 
@@ -94,6 +128,25 @@ namespace summer2021.csharp.gui.mainMenu
 
         public void quitApp() {
             Application.Quit();
+        }
+
+        public static bool isValidIpv4(string ip) {
+            if(String.IsNullOrWhiteSpace(ip)) {
+                return false;
+            }
+
+            //check number of segments
+            string[] splitVals = ip.Split('.');
+            if(splitVals.Length != 4) {
+                return false;
+            }
+
+            byte parseCheck;
+            return splitVals.All(r => byte.TryParse(r, out parseCheck));
+        }
+
+        public static bool isValidIpv6(string ip) {
+            return IPV6_FORMAT.IsMatch(ip);
         }
     }
 }

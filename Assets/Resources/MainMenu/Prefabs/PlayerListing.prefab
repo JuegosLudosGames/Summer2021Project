@@ -242,6 +242,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  nameText: {fileID: 5161876626606667760}
+  characterText: {fileID: 3053695227575759938}
 --- !u!1 &5161876626606667762
 GameObject:
   m_ObjectHideFlags: 0

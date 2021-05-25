@@ -27,10 +27,10 @@ namespace summer2021.csharp.networking
         }
 
         // Added by John | May 25, 2021
-        public void HandleCharacterChange(string oldCharacter, string newCharacter)
+        public void HandleCharacterChange(byte oldCharacter, byte newCharacter)
         {
 
-            lobbyListing.CharacterText.text = newCharacter;
+            lobbyListing.CharacterText.text = newCharacter.ToString();
 
         }
 

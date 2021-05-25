@@ -1842,6 +1842,7 @@ MonoBehaviour:
   portInput: {fileID: 1718640588}
   ipInput: {fileID: 1667500278}
   ipText: {fileID: 1472243271}
+  parentForListings: {fileID: 550779011}
 --- !u!4 &644252273
 Transform:
   m_ObjectHideFlags: 0
@@ -2986,8 +2987,13 @@ MonoBehaviour:
     type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 5161876624753195634, guid: 48faae289f5d4bb4384ae7168e1aae50, type: 3}
+  menuSceneName: MainMenu
   tele: {fileID: 1321738126}
+  parentForListings: {fileID: 0}
+  playerListingPrefab: {fileID: 5161876624753195634, guid: 48faae289f5d4bb4384ae7168e1aae50,
+    type: 3}
 --- !u!114 &1321738126
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -24,12 +24,20 @@ namespace summer2021.csharp.gui.mainMenu
         // UI Text
         [SerializeField] private TMP_Text ipText;
 
+        //game object reference
+        [SerializeField] private GameObject parentForListings;
+
         private int currentMenu = 0;
         private ushort port = 7777;
         private string publicIp = "";
 
+        private NetworkManagerLobby networkManager;
+
         // Updated by Kyle | May 25, 2021
         private void Start() {
+
+            networkManager = (NetworkManagerLobby.singleton as NetworkManagerLobby);
+
             foreach(GameObject g in Menus) {
                 g.SetActive(false);
             
@@ -40,6 +48,9 @@ namespace summer2021.csharp.gui.mainMenu
             string[] webstring = new WebClient().DownloadString("http://ip4only.me/api/").Trim().Split(',');
             publicIp = webstring[1];
             ipText.text = publicIp;
+
+            //set references in network Manager
+            networkManager.parentForListings = parentForListings;
         }
 
         public void setMenu(int index) {
@@ -53,8 +64,6 @@ namespace summer2021.csharp.gui.mainMenu
         [Obsolete("Not needed")]
         public void ValidateIPBeforeHosting()
         {
-
-            NetworkManagerLobby networkManager = (NetworkManagerLobby.singleton as NetworkManagerLobby);
 
             if (string.IsNullOrEmpty(ipInput.text))
             {
@@ -78,29 +87,28 @@ namespace summer2021.csharp.gui.mainMenu
             string[] segments = ipInput.text.Trim().Split(':');
 
             //validate ip
-            if(!(isValidIpv4(segments[0]) || isValidIpv6(segments[0]))) {
-                Debug.Log("Invalid IP");
+            if(!(isValidIpv4(segments[0]) || isValidIpv6(segments[0]) || segments[0].Equals("localhost"))) {
+                Debug.LogError("Invalid IP " + segments[0]);
                 return;
             }
 
             //validate port
-            if(!ushort.TryParse(portInput.text, out port)) {
-                Debug.Log("Invalid Port");
+            if(!ushort.TryParse(segments[1], out port)) {
+                Debug.LogError("Invalid Port " + segments[1]);
+                return;
             }
 
-            NetworkManagerLobby networkManager = (NetworkManagerLobby.singleton as NetworkManagerLobby);
             networkManager.networkAddress = segments[0];
             networkManager.Tele.port = port;
 
             networkManager.StartClient();
-
+            setMenu(3);
+            
         }
 
         // Updated by John | May 24, 2021
         // Updated by Kyle | May 25, 2021
         public void hostGame() {
-
-            NetworkManagerLobby networkManager = (NetworkManagerLobby.singleton as NetworkManagerLobby);
             
             if (!ushort.TryParse(portInput.text, out port))
             {

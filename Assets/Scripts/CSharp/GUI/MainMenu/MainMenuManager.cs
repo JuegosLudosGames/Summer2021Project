@@ -103,7 +103,7 @@ namespace summer2021.csharp.gui.mainMenu
 
             networkManager.StartClient();
             setMenu(3);
-            
+
         }
 
         // Updated by John | May 24, 2021
@@ -136,6 +136,17 @@ namespace summer2021.csharp.gui.mainMenu
 
         public void quitApp() {
             Application.Quit();
+        }
+
+        //selected character
+        private CharacterListing selected = null;
+
+        public void selectCharacter(CharacterListing listing) {
+
+        }
+
+        public void confirmCharacterChoice() {
+
         }
 
         public static bool isValidIpv4(string ip) {

@@ -14,9 +14,23 @@ namespace summer2021.csharp.gui.mainMenu
         //Added by John | May 25 2021
         [SerializeField] private TMP_Text nameText;
         [SerializeField] private TMP_Text characterText;
+        [SerializeField] private TMP_Text readyText;
 
         //Added by Kyle | May 27, 2021
-        private bool isReady;
+        private bool _isReady = false;
+        public bool isReady {
+            get {
+                return _isReady;
+            }
+            set {
+                _isReady = value;
+                if(isReady) {
+                    readyText.text = "Ready";
+                } else {
+                    readyText.text = "Not Ready";
+                }
+            }
+        }
 
         public TMP_Text NameText
         {

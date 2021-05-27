@@ -60,9 +60,16 @@ namespace summer2021.csharp.networking
         }
 
         //Commands
+        // Added by Kyle | May 27, 2021
         [Command]
         public void CmdChangecharacter(byte characterid) {
             character = characterid;
+        }
+
+        // Added by Kyle | May 27, 2021
+        [Command]
+        public void CmdChangeReadyState(bool state) {
+            readied = state;
         }
 
         //Handlers
@@ -80,7 +87,7 @@ namespace summer2021.csharp.networking
 
         // Added by Kyle | May 27, 2021
         public void HandleReadyChange(bool oldState, bool newState) {
-
+            lobbyListing.isReady = newState;
         } 
 
     }

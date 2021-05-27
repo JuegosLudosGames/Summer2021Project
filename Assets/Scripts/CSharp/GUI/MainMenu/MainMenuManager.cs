@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using summer2021.csharp.networking;
 using TMPro;
+using Mirror;
 
 namespace summer2021.csharp.gui.mainMenu
 {
@@ -15,6 +16,7 @@ namespace summer2021.csharp.gui.mainMenu
     {
 
         public static Regex IPV6_FORMAT = new Regex("((([0-9a-fA-F]){1,4})\\:){7}([0-9a-fA-F]){1,4}");
+        public static MainMenuManager singleton;
 
         [SerializeField] private GameObject[] Menus;
 
@@ -28,11 +30,29 @@ namespace summer2021.csharp.gui.mainMenu
         //game object reference
         [SerializeField] private GameObject parentForListings;
 
+        [Header("Lobby Menu Reference")]
+        [SerializeField] private int lobbyMenuIndex = 3;
+        [SerializeField] private Button StartButton;
+        [SerializeField] private TMP_Text StartButton_Text;
+
         private int currentMenu = 0;
         private ushort port = 7777;
         private string publicIp = "";
 
         private NetworkManagerLobby networkManager;
+
+        // Added by Kyle May 27, 2021
+        private void Awake() {
+            if(singleton == null)
+                singleton = this;
+        }
+
+        // Added by Kyle May 27, 2021
+        private void OnDestroy() {
+            if(this == singleton) {
+                singleton = null;
+            }
+        }
 
         // Updated by Kyle | May 25, 2021
         private void Start() {
@@ -127,6 +147,13 @@ namespace summer2021.csharp.gui.mainMenu
 
         }
 
+        // Added by Kyle | May 27,2021
+        public void ready() {
+            PlayerDetails authPlayer = NetworkManagerLobby.ClientAuthOnject;
+
+            authPlayer.CmdChangeReadyState(!authPlayer.readied);
+        }
+
         public void quitLobby() {
 
         }
@@ -146,6 +173,33 @@ namespace summer2021.csharp.gui.mainMenu
         // Updated by Kyle | May 27, 2021
         public void selectCharacter(CharacterListing listing) {
             NetworkManagerLobby.ClientAuthOnject.CmdChangecharacter(listing.character.GetCharId());
+        }
+
+        // Added by Kyle | May 27, 2021
+        public void updateLobby() {
+            bool host = NetworkManagerLobby.ClientAuthOnject.isHost;
+            bool lobbyAllReady = true;
+
+            //check if all ready
+            PlayerDetails[] players = (NetworkManager.singleton as NetworkManagerLobby).playerDetailsListing.Values.ToArray();
+            foreach(PlayerDetails p in players) {
+                if(!p.readied) {
+                    lobbyAllReady = false;
+                    break;
+                }
+            }
+
+            StartButton.enabled = host && lobbyAllReady;
+
+            if(host) {
+                if(lobbyAllReady) {
+                    StartButton_Text.text = "Start Game";
+                } else {
+                    StartButton_Text.text = "Waiting for Players";
+                }
+            } else {
+                StartButton_Text.text = "Waiting for host";
+            }
         }
 
         // Updated by Kyle | May 27, 2021

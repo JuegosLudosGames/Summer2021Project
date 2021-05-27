@@ -55,6 +55,7 @@ namespace summer2021.csharp.networking{
         }
 
         // Added by Kyle | May 25, 2021
+        // Updated by Kyle | May 27, 2021
         public override void OnServerAddPlayer(NetworkConnection conn)
         {
             //full override, do not use base

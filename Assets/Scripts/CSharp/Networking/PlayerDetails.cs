@@ -16,7 +16,23 @@ namespace summer2021.csharp.networking
         [SyncVar(hook=nameof(HandleNameChange))] public string username = string.Empty;
         [SyncVar(hook=nameof(HandleCharacterChange))] public byte character = 0;
         [SyncVar(hook=nameof(HandleReadyChange))] public bool readied = false;
+
+        [SyncVar] public byte idNum = 0;
+
+        public bool isHost = false;
+
         public PlayerListing lobbyListing;
+
+        private NetworkManagerLobby _manager;
+        private NetworkManagerLobby manager {
+            get {
+                if(_manager != null) {
+                    return _manager;
+                } else {
+                    return _manager = NetworkManager.singleton as NetworkManagerLobby;
+                }
+            }
+        }
 
         // Added by Kyle | May 27, 2021
         public override void OnStartAuthority()
@@ -28,12 +44,19 @@ namespace summer2021.csharp.networking
         public override void OnStartClient()
         {
             DontDestroyOnLoad(gameObject);
+            if(!manager.playerDetailsListing.ContainsKey(idNum))
+                manager.playerDetailsListing.Add(idNum, this);
+
+            if(isHost)
+                Debug.Log("I am host");
         }
 
         // Added by Kyle | May 27, 2021
         public override void OnStartServer()
         {
             DontDestroyOnLoad(gameObject);
+            if(!manager.playerDetailsListing.ContainsKey(idNum))
+                manager.playerDetailsListing.Add(idNum, this);
         }
 
         //Commands
@@ -58,7 +81,7 @@ namespace summer2021.csharp.networking
         // Added by Kyle | May 27, 2021
         public void HandleReadyChange(bool oldState, bool newState) {
 
-        }
+        } 
 
     }
 

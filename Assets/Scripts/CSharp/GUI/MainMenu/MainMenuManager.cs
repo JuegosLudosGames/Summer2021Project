@@ -5,6 +5,7 @@ using System.Net;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.UI;
 using summer2021.csharp.networking;
 using TMPro;
 
@@ -140,11 +141,22 @@ namespace summer2021.csharp.gui.mainMenu
 
         //selected character
         private CharacterListing selected = null;
+        private Image selectedChar = null;
 
+        // Updated by Kyle | May 27, 2021
         public void selectCharacter(CharacterListing listing) {
             NetworkManagerLobby.ClientAuthOnject.CmdChangecharacter(listing.character.GetCharId());
         }
 
+        // Updated by Kyle | May 27, 2021
+        public void setCharHighlight(Image obj) {
+            if(selectedChar != null)
+                selectedChar.color = Color.white;
+            selectedChar = obj;
+            selectedChar.color = Color.yellow;
+        }
+
+        // Updated by Kyle | May 25, 2021
         public static bool isValidIpv4(string ip) {
             if(String.IsNullOrWhiteSpace(ip)) {
                 return false;
@@ -160,6 +172,7 @@ namespace summer2021.csharp.gui.mainMenu
             return splitVals.All(r => byte.TryParse(r, out parseCheck));
         }
 
+        // Updated by Kyle | May 25, 2021
         public static bool isValidIpv6(string ip) {
             return IPV6_FORMAT.IsMatch(ip);
         }

@@ -26,6 +26,9 @@ namespace summer2021.csharp.networking{
         // and has static reference
         [HideInInspector] public static PlayerDetails ClientAuthOnject;
 
+        //Reference Lists
+        public Dictionary<byte, PlayerDetails> playerDetailsListing = new Dictionary<byte, PlayerDetails>();
+
         public TelepathyTransport Tele{
 
             get
@@ -59,6 +62,18 @@ namespace summer2021.csharp.networking{
 
                 //Instantiate Base object (details prefab)
                 GameObject baseInstance = Instantiate(playerPrefab); 
+                
+                //sets id of player object
+                byte id = 0;
+                do {
+                    id = (byte) (new System.Random().Next() % 256);
+                } while (playerDetailsListing.ContainsKey(id) && id != 0);
+
+                PlayerDetails pd = baseInstance.GetComponent<PlayerDetails>();
+                pd.idNum = id;
+
+                if(playerDetailsListing.Count == 0) 
+                    pd.isHost = true;
 
                 NetworkServer.AddPlayerForConnection(conn, baseInstance);
 

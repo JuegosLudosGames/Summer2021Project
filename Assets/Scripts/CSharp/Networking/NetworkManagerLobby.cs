@@ -21,6 +21,11 @@ namespace summer2021.csharp.networking{
         [Header("Prefabs")]
         [SerializeField] private GameObject playerListingPrefab;
 
+        // Added by Kyle May 27, 2021
+        // note: This object is the playerdetails object that the current client has full authority of
+        // and has static reference
+        [HideInInspector] public static PlayerDetails ClientAuthOnject;
+
         public TelepathyTransport Tele{
 
             get

@@ -5,6 +5,7 @@ using UnityEngine;
 namespace summer2021.csharp.game.character
 {
     //Added by Kyle | May 25, 2021
+    [CreateAssetMenu(fileName="PlayableCharacter", menuName="PlayableCharacter")]
     public class PlayableCharacter : ScriptableObject
     {
         [SerializeField] private byte CharId;

@@ -15,6 +15,9 @@ namespace summer2021.csharp.gui.mainMenu
         [SerializeField] private TMP_Text nameText;
         [SerializeField] private TMP_Text characterText;
 
+        //Added by Kyle | May 27, 2021
+        private bool isReady;
+
         public TMP_Text NameText
         {
 

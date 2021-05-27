@@ -142,11 +142,7 @@ namespace summer2021.csharp.gui.mainMenu
         private CharacterListing selected = null;
 
         public void selectCharacter(CharacterListing listing) {
-
-        }
-
-        public void confirmCharacterChoice() {
-
+            NetworkManagerLobby.ClientAuthOnject.CmdChangecharacter(listing.character.GetCharId());
         }
 
         public static bool isValidIpv4(string ip) {

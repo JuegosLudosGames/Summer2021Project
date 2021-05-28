@@ -124,7 +124,7 @@ namespace summer2021.csharp.gui.mainMenu
 
             networkManager.StartClient();
             setMenu(3);
-
+            updateLobby();
         }
 
         // Updated by John | May 24, 2021
@@ -144,7 +144,7 @@ namespace summer2021.csharp.gui.mainMenu
             networkManager.networkAddress = "localhost";
             networkManager.StartHost();
             setMenu(3);
-
+            updateLobby();
         }
 
         // Added by Kyle | May 27,2021

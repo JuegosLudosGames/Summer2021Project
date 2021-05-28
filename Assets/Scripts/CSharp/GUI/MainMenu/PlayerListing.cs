@@ -15,6 +15,8 @@ namespace summer2021.csharp.gui.mainMenu
         [SerializeField] private TMP_Text nameText;
         [SerializeField] private TMP_Text characterText;
         [SerializeField] private TMP_Text readyText;
+        
+        [SyncVar] public byte playerId = 0;
 
         //Added by Kyle | May 27, 2021
         private bool _isReady = false;
@@ -29,6 +31,7 @@ namespace summer2021.csharp.gui.mainMenu
                 } else {
                     readyText.text = "Not Ready";
                 }
+                MainMenuManager.singleton.updateLobby();
             }
         }
 
@@ -71,6 +74,10 @@ namespace summer2021.csharp.gui.mainMenu
         {
             this.gameObject.transform.SetParent(networkManager.parentForListings.transform);
             this.gameObject.transform.localScale = Vector3.one;
+
+            //set owner player to itself
+            networkManager.playerDetailsListing.TryGetValue(playerId, out PlayerDetails playerDetails);
+            playerDetails.lobbyListing = this;
         }
     }
 }

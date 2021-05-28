@@ -81,7 +81,11 @@ namespace summer2021.csharp.networking{
                 //Add Listing object
                 GameObject listing = Instantiate(playerListingPrefab, parentForListings.transform);
 
-                baseInstance.GetComponent<PlayerDetails>().lobbyListing = listing.GetComponent<PlayerListing>();
+                PlayerListing plist = listing.GetComponent<PlayerListing>();
+
+                baseInstance.GetComponent<PlayerDetails>().lobbyListing = plist;
+
+                plist.playerId = id;
 
                 NetworkServer.Spawn(listing, baseInstance);
             }

@@ -44,8 +44,10 @@ namespace summer2021.csharp.networking
         public override void OnStartClient()
         {
             DontDestroyOnLoad(gameObject);
-            if(!manager.playerDetailsListing.ContainsKey(idNum))
+            if(!manager.playerDetailsListing.ContainsKey(idNum)) {
+                Debug.Log("Added to listing");
                 manager.playerDetailsListing.Add(idNum, this);
+            }
 
             if(isHost)
                 Debug.Log("I am host");
@@ -77,17 +79,29 @@ namespace summer2021.csharp.networking
         public void HandleNameChange(string oldName, string newName)
         {
             lobbyListing.NameText.text = newName;
+
+            if(MainMenuManager.singleton != null) {
+                MainMenuManager.singleton.updateLobby();
+            }
         }
 
         // Added by John | May 25, 2021
         public void HandleCharacterChange(byte oldCharacter, byte newCharacter)
         {
             lobbyListing.CharacterText.text = newCharacter.ToString();
+
+            if(MainMenuManager.singleton != null) {
+                MainMenuManager.singleton.updateLobby();
+            }
         }
 
         // Added by Kyle | May 27, 2021
         public void HandleReadyChange(bool oldState, bool newState) {
             lobbyListing.isReady = newState;
+
+            if(MainMenuManager.singleton != null) {
+                MainMenuManager.singleton.updateLobby();
+            }
         } 
 
     }

@@ -74,6 +74,14 @@ namespace summer2021.csharp.networking
             readied = state;
         }
 
+        //Added by Kyle | May 29, 2021
+        [Command]
+        public void CmdStartGame(string scene) {
+            if(isHost)  {
+                manager.ServerChangeScene(scene);
+            }
+        }
+
         //Handlers
         // Added by John | May 25, 2021
         public void HandleNameChange(string oldName, string newName)

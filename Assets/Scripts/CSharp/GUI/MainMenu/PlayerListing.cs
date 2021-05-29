@@ -70,6 +70,7 @@ namespace summer2021.csharp.gui.mainMenu
             }
         }
 
+        // Updated by Kyle | May 29, 2021
         public override void OnStartClient()
         {
             this.gameObject.transform.SetParent(networkManager.parentForListings.transform);
@@ -78,6 +79,11 @@ namespace summer2021.csharp.gui.mainMenu
             //set owner player to itself
             networkManager.playerDetailsListing.TryGetValue(playerId, out PlayerDetails playerDetails);
             playerDetails.lobbyListing = this;
+
+            //update main menu
+            if(MainMenuManager.singleton != null) {
+                MainMenuManager.singleton.updateLobby();
+            }
         }
     }
 }

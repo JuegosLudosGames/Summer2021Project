@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 925ca09365887174c932bd9d39d61850, type: 3}
-  m_Name: Dev_Test_Character
+  m_Name: Character_255
   m_EditorClassIdentifier: 
   CharId: 255
   ImageSprite: {fileID: 21300000, guid: 3d14fbcd165b68348801c2694dff4fb5, type: 3}

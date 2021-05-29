@@ -32,12 +32,15 @@ namespace summer2021.csharp.gui.mainMenu
 
         [Header("Lobby Menu Reference")]
         [SerializeField] private int lobbyMenuIndex = 3;
+        [SerializeField] private GameObject HostPanel;
         [SerializeField] private Button StartButton;
         [SerializeField] private TMP_Text StartButton_Text;
+        [SerializeField] private TMP_Text ReadyButton_Text;
 
         private int currentMenu = 0;
         private ushort port = 7777;
         private string publicIp = "";
+        private MapListing selectedScene;
 
         private NetworkManagerLobby networkManager;
 
@@ -159,7 +162,10 @@ namespace summer2021.csharp.gui.mainMenu
         }
 
         public void startLobby() {
-            
+            PlayerDetails details = NetworkManagerLobby.ClientAuthOnject;
+            if(details.isHost) {
+                details.CmdStartGame(selectedScene.SceneName);
+            }
         }
 
         public void quitApp() {
@@ -176,9 +182,22 @@ namespace summer2021.csharp.gui.mainMenu
         }
 
         // Added by Kyle | May 27, 2021
+        public void selectMap(MapListing listing) {
+            
+            selectedScene.gameObject.GetComponent<Image>().color = Color.white;
+            selectedScene = listing;
+            selectedScene.gameObject.GetComponent<Image>().color = Color.yellow;
+
+        }
+
+        // Added by Kyle | May 27, 2021
+        // Updated by Kyle | May 29, 2021
         public void updateLobby() {
             bool host = NetworkManagerLobby.ClientAuthOnject.isHost;
             bool lobbyAllReady = true;
+
+            //Ready button status
+            ReadyButton_Text.text = NetworkManagerLobby.ClientAuthOnject.readied? "UnReady" : "Ready";
 
             //check if all ready
             PlayerDetails[] players = (NetworkManager.singleton as NetworkManagerLobby).playerDetailsListing.Values.ToArray();
@@ -200,6 +219,8 @@ namespace summer2021.csharp.gui.mainMenu
             } else {
                 StartButton_Text.text = "Waiting for host";
             }
+
+            HostPanel.SetActive(host);
         }
 
         // Updated by Kyle | May 27, 2021

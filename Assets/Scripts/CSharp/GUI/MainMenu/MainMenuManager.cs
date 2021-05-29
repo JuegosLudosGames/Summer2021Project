@@ -184,7 +184,8 @@ namespace summer2021.csharp.gui.mainMenu
         // Added by Kyle | May 27, 2021
         public void selectMap(MapListing listing) {
             
-            selectedScene.gameObject.GetComponent<Image>().color = Color.white;
+            if(selectedScene != null)
+                selectedScene.gameObject.GetComponent<Image>().color = Color.white;
             selectedScene = listing;
             selectedScene.gameObject.GetComponent<Image>().color = Color.yellow;
 
